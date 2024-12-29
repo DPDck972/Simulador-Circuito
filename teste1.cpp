@@ -10,9 +10,9 @@ int main(void)
 
   // Porta NOT
   PortaNOT P_NT;
-  PortaNOT P_NT1(1);   // Deve gerar erro de compilacao: precisa comentar
+  //PortaNOT P_NT1(1);   // Deve gerar erro de compilacao: precisa comentar
 
-  // Porta AND
+ // Porta AND
   PortaAND P_AN;       // Deve gerar erro de compilacao: precisa comentar
   PortaAND P_AN1(1);
   PortaAND P_AN2(2), P_AN3(3);

@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1735495753 source:c:\users\mh330\documents\acadêmico\2024.2\programação avançada\unidade 3\projeto 4\simulador-circuito\teste1.cpp
+	<iostream>
+	<string>
+	"porta.h"
+
+1735330547 c:\users\mh330\documents\acadêmico\2024.2\programação avançada\unidade 3\projeto 4\simulador-circuito\porta.h
+	<string>
+	<vector>
+	"bool3S.h"
+
+1734656919 c:\users\mh330\documents\acadêmico\2024.2\programação avançada\unidade 3\projeto 4\simulador-circuito\bool3s.h
+	<iostream>
+

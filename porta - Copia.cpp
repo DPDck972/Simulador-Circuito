@@ -23,7 +23,7 @@ bool PortaNOT::simular(const std::vector<bool3S> &in_port)
     // Se a dimensao do vetor in_port for adequada (>0 e igual ao numero de entradas
     // da porta), armazena o resultado da simulacao em out_port e retorna true.
     // Se nao for, faz out_port = UNDEF e retorna false.
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size)
     {
         bool3S saida;
         if (in_port[0] == bool3S::TRUE)
