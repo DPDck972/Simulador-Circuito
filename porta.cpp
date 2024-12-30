@@ -5,7 +5,7 @@
 ///
 
 /// Porta Base
-bool Porta::temTrue(const std::vector<bool3S> &entrada)
+bool Porta::temTrue(const std::vector<bool3S> &entrada) const
 {
     for (int i = 0; i < entrada.size(); ++i)
     {
@@ -17,7 +17,7 @@ bool Porta::temTrue(const std::vector<bool3S> &entrada)
     return false;
 }
 
-bool Porta::temFalse(const std::vector<bool3S> &entrada)
+bool Porta::temFalse(const std::vector<bool3S> &entrada) const
 {
     for (int i = 0; i < entrada.size(); ++i)
     {
@@ -29,7 +29,7 @@ bool Porta::temFalse(const std::vector<bool3S> &entrada)
     return false;
 }
 
-bool Porta::temUndef(const std::vector<bool3S> &entrada)
+bool Porta::temUndef(const std::vector<bool3S> &entrada) const
 {
     for (int i = 0; i < entrada.size(); ++i)
     {
@@ -112,7 +112,7 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
         }
 
         this->setOutput(saida);
-        return true
+        return true;
     }
     else
     {
@@ -127,21 +127,43 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
 
 /// Porta NAND
 
-/*bool PortaAND::simular(const std::vector<bool3S> &in_port)
+ptr_Porta PortaNAND::clone() const
+{
+    return new PortaNAND(*this);
+}
+
+std::string PortaNAND::getName() const
+{
+    return "NA";
+}
+
+bool PortaNAND::simular(const std::vector<bool3S> &in_port)
 {
     if (this->getNumInputs() == in_port.size())
     {
         bool3S saida;
+        if (this->temFalse(in_port))
+        {
+            saida = bool3S::TRUE;
+        }
+        else if (this->temUndef(in_port))
+        {
+            saida = bool3S::UNDEF;
+        }
+        else
+        {
+            saida = bool3S::FALSE;
+        }
 
         this->setOutput(saida);
-        return true
+        return true;
     }
     else
     {
         this->setOutput(bool3S::UNDEF);
         return false;
     }
-}*/
+}
 
 //
 // FALTA IMPLEMENTAR

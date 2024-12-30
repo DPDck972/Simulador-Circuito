@@ -90,9 +90,9 @@ public:
   /// ***********************
   /// Funções de Maria Helena
   /// ***********************
-  bool temTrue(const std::vector<bool3S> &entrada); // Adicionar const dps
-  bool temFalse(const std::vector<bool3S> &entrada);
-  bool temUndef(const std::vector<bool3S> &entrada);
+  bool temTrue(const std::vector<bool3S> &entrada) const;
+  bool temFalse(const std::vector<bool3S> &entrada) const;
+  bool temUndef(const std::vector<bool3S> &entrada) const;
 };
 
 ///
@@ -160,6 +160,13 @@ public:
   //
   // FALTA DECLARAR
   //
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
 class PortaOR : public Porta
