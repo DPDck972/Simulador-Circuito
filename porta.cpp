@@ -171,6 +171,37 @@ bool PortaNAND::simular(const std::vector<bool3S> &in_port)
 
 /// Porta OR
 
+ptr_Porta PortaOR::clone() const
+{
+    return new PortaOR(*this);
+}
+
+std::string PortaOR::getName() const
+{
+    return "OR";
+}
+
+bool PortaOR::simular(const std::vector<bool3S> &in_port)
+{
+    if (this->getNumInputs() == in_port.size())
+    {
+        bool3S saida;
+        if (this->temTrue(in_port))
+        {
+            saida = bool3S::TRUE;
+        }
+        // INCOMPLETO
+
+        this->setOutput(saida);
+        return true;
+    }
+    else
+    {
+        this->setOutput(bool3S::UNDEF);
+        return false;
+    }
+}
+
 //
 // FALTA IMPLEMENTAR
 //
