@@ -90,7 +90,7 @@ public:
   /// ***********************
   /// Funções de Maria Helena
   /// ***********************
-  bool temTrue(const std::vector<bool3S> &entrada);
+  bool temTrue(const std::vector<bool3S> &entrada); // Adicionar const dps
   bool temFalse(const std::vector<bool3S> &entrada);
   bool temUndef(const std::vector<bool3S> &entrada);
 };

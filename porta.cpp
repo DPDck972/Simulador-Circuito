@@ -98,25 +98,11 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
     if (this->getNumInputs() == in_port.size())
     {
         bool3S saida;
-        bool temFalso = false;
-        bool temUndef = false;
-        for (int i = 0; i < in_port.size(); ++i)
-        {
-            if (in_port[i] == bool3S::FALSE)
-            {
-                temFalso = true;
-                break;
-            }
-            else if (in_port[i] == bool3S::UNDEF)
-            {
-                temUndef = true;
-            }
-        }
-        if (temFalso)
+        if (this->temFalse(in_port))
         {
             saida = bool3S::FALSE;
         }
-        else if (temUndef)
+        else if (this->temUndef(in_port))
         {
             saida = bool3S::UNDEF;
         }
