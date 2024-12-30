@@ -190,7 +190,14 @@ bool PortaOR::simular(const std::vector<bool3S> &in_port)
         {
             saida = bool3S::TRUE;
         }
-        // INCOMPLETO
+        else if (this->temUndef(in_port))
+        {
+            saida = bool3S::UNDEF;
+        }
+        else
+        {
+            saida = bool3S::FALSE;
+        }
 
         this->setOutput(saida);
         return true;
