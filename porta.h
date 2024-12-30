@@ -86,6 +86,13 @@ public:
   // da porta), armazena o resultado da simulacao em out_port e retorna true.
   // Se nao for, faz out_port = UNDEF e retorna false.
   virtual bool simular(const std::vector<bool3S> &in_port) = 0;
+
+  /// ***********************
+  /// Funções de Maria Helena
+  /// ***********************
+  bool temTrue(const std::vector<bool3S> &entrada);
+  bool temFalse(const std::vector<bool3S> &entrada);
+  bool temUndef(const std::vector<bool3S> &entrada);
 };
 
 ///

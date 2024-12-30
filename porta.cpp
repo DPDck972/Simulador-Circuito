@@ -4,6 +4,43 @@
 /// AS PORTAS
 ///
 
+/// Porta Base
+bool Porta::temTrue(const std::vector<bool3S> &entrada)
+{
+    for (int i = 0; i < entrada.size(); ++i)
+    {
+        if (entrada[i] == bool3S::TRUE)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Porta::temFalse(const std::vector<bool3S> &entrada)
+{
+    for (int i = 0; i < entrada.size(); ++i)
+    {
+        if (entrada[i] == bool3S::FALSE)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Porta::temUndef(const std::vector<bool3S> &entrada)
+{
+    for (int i = 0; i < entrada.size(); ++i)
+    {
+        if (entrada[i] == bool3S::UNDEF)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 /// Porta NOT
 ptr_Porta PortaNOT::clone() const
 {
@@ -58,6 +95,44 @@ std::string PortaAND::getName() const
 
 bool PortaAND::simular(const std::vector<bool3S> &in_port)
 {
+    if (this->getNumInputs() == in_port.size())
+    {
+        bool3S saida;
+        bool temFalso = false;
+        bool temUndef = false;
+        for (int i = 0; i < in_port.size(); ++i)
+        {
+            if (in_port[i] == bool3S::FALSE)
+            {
+                temFalso = true;
+                break;
+            }
+            else if (in_port[i] == bool3S::UNDEF)
+            {
+                temUndef = true;
+            }
+        }
+        if (temFalso)
+        {
+            saida = bool3S::FALSE;
+        }
+        else if (temUndef)
+        {
+            saida = bool3S::UNDEF;
+        }
+        else
+        {
+            saida = bool3S::TRUE;
+        }
+
+        this->setOutput(saida);
+        return true
+    }
+    else
+    {
+        this->setOutput(bool3S::UNDEF);
+        return false;
+    }
 }
 
 //
@@ -65,6 +140,22 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
 //
 
 /// Porta NAND
+
+/*bool PortaAND::simular(const std::vector<bool3S> &in_port)
+{
+    if (this->getNumInputs() == in_port.size())
+    {
+        bool3S saida;
+
+        this->setOutput(saida);
+        return true
+    }
+    else
+    {
+        this->setOutput(bool3S::UNDEF);
+        return false;
+    }
+}*/
 
 //
 // FALTA IMPLEMENTAR
