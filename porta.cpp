@@ -4,43 +4,6 @@
 /// AS PORTAS
 ///
 
-/// Porta Base
-bool Porta::temTrue(const std::vector<bool3S> &entrada) const
-{
-    for (int i = 0; i < entrada.size(); ++i)
-    {
-        if (entrada[i] == bool3S::TRUE)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Porta::temFalse(const std::vector<bool3S> &entrada) const
-{
-    for (int i = 0; i < entrada.size(); ++i)
-    {
-        if (entrada[i] == bool3S::FALSE)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Porta::temUndef(const std::vector<bool3S> &entrada) const
-{
-    for (int i = 0; i < entrada.size(); ++i)
-    {
-        if (entrada[i] == bool3S::UNDEF)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 /// Porta NOT
 ptr_Porta PortaNOT::clone() const
 {
@@ -60,9 +23,9 @@ bool PortaNOT::simular(const std::vector<bool3S> &in_port)
     // Se a dimensao do vetor in_port for adequada (>0 e igual ao numero de entradas
     // da porta), armazena o resultado da simulacao em out_port e retorna true.
     // Se nao for, faz out_port = UNDEF e retorna false.
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = ~in_port[0];
+        bool3S saida = ~(*in_port.begin());
         this->setOutput(saida);
         return true;
     }
@@ -87,10 +50,10 @@ std::string PortaAND::getName() const
 
 bool PortaAND::simular(const std::vector<bool3S> &in_port)
 {
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = in_port[0];
-        for (auto it = in_port.begin() + 1; it != in_port.end(); ++it)
+        bool3S saida = *in_port.begin();
+        for (auto it = in_port.begin(); it != in_port.end(); ++it) // Operação com .begin() não provoca erro na porta AND
         {
             saida = saida & (*it);
         }
@@ -118,10 +81,10 @@ std::string PortaNAND::getName() const
 
 bool PortaNAND::simular(const std::vector<bool3S> &in_port)
 {
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = in_port[0];
-        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        bool3S saida = *in_port.begin();
+        for (auto it = in_port.begin(); it != in_port.end(); ++it) // Operação com .begin() não provoca erro na porta NAND
         {
             saida = saida & (*it);
         }
@@ -149,10 +112,10 @@ std::string PortaOR::getName() const
 
 bool PortaOR::simular(const std::vector<bool3S> &in_port)
 {
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = in_port[0];
-        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        bool3S saida = *in_port.begin();
+        for (auto it = in_port.begin(); it != in_port.end(); ++it) // Operação com .begin() não provoca erro na porta OR
         {
             saida = saida | (*it);
         }
@@ -180,10 +143,10 @@ std::string PortaNOR::getName() const
 
 bool PortaNOR::simular(const std::vector<bool3S> &in_port)
 {
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = in_port[0];
-        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        bool3S saida = *in_port.begin();
+        for (auto it = in_port.begin(); it != in_port.end(); ++it) // Operação com .begin() não provoca erro na porta NOR
         {
             saida = saida | (*it);
         }
@@ -211,10 +174,10 @@ std::string PortaXOR::getName() const
 
 bool PortaXOR::simular(const std::vector<bool3S> &in_port)
 {
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = in_port[0];
-        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        bool3S saida = *in_port.begin();
+        for (auto it = in_port.begin() + 1; it != in_port.end(); ++it) // Usando .begin() + 1 para evitar repetição e erro na simulação da porta XOR
         {
             saida = saida ^ (*it);
         }
@@ -242,10 +205,10 @@ std::string PortaNXOR::getName() const
 
 bool PortaNXOR::simular(const std::vector<bool3S> &in_port)
 {
-    if (this->getNumInputs() == in_port.size())
+    if (this->getNumInputs() == in_port.size() && in_port.size() > 0)
     {
-        bool3S saida = in_port[0];
-        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        bool3S saida = *in_port.begin();
+        for (auto it = in_port.begin() + 1; it != in_port.end(); ++it) // Usando .begin() + 1 para evitar repetição e erro na simulação da porta NXOR
         {
             saida = saida ^ (*it);
         }
