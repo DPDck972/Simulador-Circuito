@@ -210,6 +210,13 @@ public:
   //
   // FALTA DECLARAR
   //
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  // bool simular(const std::vector<bool3S> &in_port) override;
 };
 
 class PortaXOR : public Porta
@@ -228,6 +235,13 @@ public:
   //
   // FALTA DECLARAR
   //
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  // bool simular(const std::vector<bool3S> &in_port) override;
 };
 
 class PortaNXOR : public Porta
@@ -246,6 +260,12 @@ public:
   //
   // FALTA DECLARAR
   //
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  // bool simular(const std::vector<bool3S> &in_port) override;
 };
 
 #endif // _PORTA_H_

@@ -73,10 +73,6 @@ bool PortaNOT::simular(const std::vector<bool3S> &in_port)
     }
 }
 
-//
-// FALTA IMPLEMENTAR
-//
-
 /// Porta AND
 
 ptr_Porta PortaAND::clone() const
@@ -107,10 +103,6 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
         return false;
     }
 }
-
-//
-// FALTA IMPLEMENTAR
-//
 
 /// Porta NAND
 
@@ -152,10 +144,6 @@ bool PortaNAND::simular(const std::vector<bool3S> &in_port)
     }
 }
 
-//
-// FALTA IMPLEMENTAR
-//
-
 /// Porta OR
 
 ptr_Porta PortaOR::clone() const
@@ -196,24 +184,38 @@ bool PortaOR::simular(const std::vector<bool3S> &in_port)
     }
 }
 
-//
-// FALTA IMPLEMENTAR
-//
-
 /// Porta NOR
 
-//
-// FALTA IMPLEMENTAR
-//
+ptr_Porta PortaNOR::clone() const
+{
+    return new PortaNOR(*this);
+}
+
+std::string PortaNOR::getName() const
+{
+    return "NO";
+}
 
 /// Porta XOR
 
-//
-// FALTA IMPLEMENTAR
-//
+ptr_Porta PortaXOR::clone() const
+{
+    return new PortaXOR(*this);
+}
+
+std::string PortaXOR::getName() const
+{
+    return "XO";
+}
 
 /// Porta NXOR
 
-//
-// FALTA IMPLEMENTAR
-//
+ptr_Porta PortaNXOR::clone() const
+{
+    return new PortaNXOR(*this);
+}
+
+std::string PortaNXOR::getName() const
+{
+    return "NX";
+}
