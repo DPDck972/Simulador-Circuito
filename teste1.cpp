@@ -13,32 +13,32 @@ int main(void)
   //PortaNOT P_NT1(1);   // Deve gerar erro de compilacao: precisa comentar
 
  // Porta AND
-  PortaAND P_AN;       // Deve gerar erro de compilacao: precisa comentar
+  //PortaAND P_AN;       // Deve gerar erro de compilacao: precisa comentar
   PortaAND P_AN1(1);
   PortaAND P_AN2(2), P_AN3(3);
 
   // Porta NAND
-  PortaNAND P_NA;      // Deve gerar erro de compilacao: precisa comentar
+  //PortaNAND P_NA;      // Deve gerar erro de compilacao: precisa comentar
   PortaNAND P_NA1(1);
   PortaNAND P_NA2(2), P_NA3(3);
 
   // Porta OR
-  PortaOR P_OR;        // Deve gerar erro de compilacao: precisa comentar
+  //PortaOR P_OR;        // Deve gerar erro de compilacao: precisa comentar
   PortaOR P_OR1(1);
   PortaOR P_OR2(2), P_OR3(3);
 
   // Porta NOR
-  PortaNOR P_NO;       // Deve gerar erro de compilacao: precisa comentar
+  //PortaNOR P_NO;       // Deve gerar erro de compilacao: precisa comentar
   PortaNOR P_NO1(1);
   PortaNOR P_NO2(2), P_NO3(3);
 
   // Porta XOR
-  PortaXOR P_XO;       // Deve gerar erro de compilacao: precisa comentar
+  //PortaXOR P_XO;       // Deve gerar erro de compilacao: precisa comentar
   PortaXOR P_XO1(1);
   PortaXOR P_XO2(2), P_XO3(3);
 
   // Porta NXOR
-  PortaNXOR P_XO;      // Deve gerar erro de compilacao: precisa comentar
+  //PortaNXOR P_XO;      // Deve gerar erro de compilacao: precisa comentar
   PortaNXOR P_NX1(1);
   PortaNXOR P_NX2(2), P_NX3(3);
 

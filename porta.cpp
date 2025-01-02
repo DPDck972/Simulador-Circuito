@@ -240,7 +240,7 @@ std::string PortaNXOR::getName() const
     return "NX";
 }
 
-bool PortaXNOR::simular(const std::vector<bool3S> &in_port)
+bool PortaNXOR::simular(const std::vector<bool3S> &in_port)
 {
     if (this->getNumInputs() == in_port.size())
     {
