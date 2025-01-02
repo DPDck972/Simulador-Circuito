@@ -90,7 +90,7 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
     if (this->getNumInputs() == in_port.size())
     {
         bool3S saida = in_port[0];
-        for (auto it = in_port.begin() + 1; it != in_port.end(); ++it)
+        for (auto it = in_port.begin(); it != in_port.end(); ++it)
         {
             saida = saida & (*it);
         }
@@ -120,21 +120,12 @@ bool PortaNAND::simular(const std::vector<bool3S> &in_port)
 {
     if (this->getNumInputs() == in_port.size())
     {
-        bool3S saida;
-        if (this->temFalse(in_port))
+        bool3S saida = in_port[0];
+        for (auto it = in_port.begin(); it != in_port.end(); ++it)
         {
-            saida = bool3S::TRUE;
+            saida = saida & (*it);
         }
-        else if (this->temUndef(in_port))
-        {
-            saida = bool3S::UNDEF;
-        }
-        else
-        {
-            saida = bool3S::FALSE;
-        }
-
-        this->setOutput(saida);
+        this->setOutput(~saida);
         return true;
     }
     else
@@ -160,20 +151,11 @@ bool PortaOR::simular(const std::vector<bool3S> &in_port)
 {
     if (this->getNumInputs() == in_port.size())
     {
-        bool3S saida;
-        if (this->temTrue(in_port))
+        bool3S saida = in_port[0];
+        for (auto it = in_port.begin(); it != in_port.end(); ++it)
         {
-            saida = bool3S::TRUE;
+            saida = saida | (*it);
         }
-        else if (this->temUndef(in_port))
-        {
-            saida = bool3S::UNDEF;
-        }
-        else
-        {
-            saida = bool3S::FALSE;
-        }
-
         this->setOutput(saida);
         return true;
     }
@@ -196,6 +178,25 @@ std::string PortaNOR::getName() const
     return "NO";
 }
 
+bool PortaNOR::simular(const std::vector<bool3S> &in_port)
+{
+    if (this->getNumInputs() == in_port.size())
+    {
+        bool3S saida = in_port[0];
+        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        {
+            saida = saida | (*it);
+        }
+        this->setOutput(~saida);
+        return true;
+    }
+    else
+    {
+        this->setOutput(bool3S::UNDEF);
+        return false;
+    }
+}
+
 /// Porta XOR
 
 ptr_Porta PortaXOR::clone() const
@@ -208,6 +209,25 @@ std::string PortaXOR::getName() const
     return "XO";
 }
 
+bool PortaXOR::simular(const std::vector<bool3S> &in_port)
+{
+    if (this->getNumInputs() == in_port.size())
+    {
+        bool3S saida = in_port[0];
+        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        {
+            saida = saida ^ (*it);
+        }
+        this->setOutput(saida);
+        return true;
+    }
+    else
+    {
+        this->setOutput(bool3S::UNDEF);
+        return false;
+    }
+}
+
 /// Porta NXOR
 
 ptr_Porta PortaNXOR::clone() const
@@ -218,4 +238,23 @@ ptr_Porta PortaNXOR::clone() const
 std::string PortaNXOR::getName() const
 {
     return "NX";
+}
+
+bool PortaXNOR::simular(const std::vector<bool3S> &in_port)
+{
+    if (this->getNumInputs() == in_port.size())
+    {
+        bool3S saida = in_port[0];
+        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        {
+            saida = saida ^ (*it);
+        }
+        this->setOutput(~saida);
+        return true;
+    }
+    else
+    {
+        this->setOutput(bool3S::UNDEF);
+        return false;
+    }
 }
