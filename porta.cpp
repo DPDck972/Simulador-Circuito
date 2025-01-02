@@ -90,7 +90,7 @@ bool PortaAND::simular(const std::vector<bool3S> &in_port)
     if (this->getNumInputs() == in_port.size())
     {
         bool3S saida = in_port[0];
-        for (auto it = in_port.begin(); it != in_port.end(); ++it)
+        for (auto it = in_port.begin() + 1; it != in_port.end(); ++it)
         {
             saida = saida & (*it);
         }

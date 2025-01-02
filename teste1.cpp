@@ -81,12 +81,17 @@ int main(void)
   if (P_NT.simular(in2)) cerr << "Erro na simulacao de P_NT com 2 entradas\n";
   if (P_NT.simular(in3)) cerr << "Erro na simulacao de P_NT com 3 entradas\n";
 
+
   // Teste da porta AND1
   cout << "\nCOMPATIBILIDADE DAS ENTRADAS AND1\n";
   if (P_AN1.simular(in0)) cerr << "Erro na simulacao de P_AN1 com 0 entradas\n";
+  cout << "\n and 0\n";
   if (P_AN1.simular(in1)) cerr << "Erro na simulacao de P_AN1 com 1 entrada\n";
+  cout << "\n and 1\n";
   if (P_AN1.simular(in2)) cerr << "Erro na simulacao de P_AN1 com 2 entradas\n";
+  cout << "\n and 2\n";
   if (P_AN1.simular(in3)) cerr << "Erro na simulacao de P_AN1 com 3 entradas\n";
+  cout << "\n and 3\n";
 
   // Teste da porta AND2
   cout << "\nCOMPATIBILIDADE DAS ENTRADAS AND2\n";
