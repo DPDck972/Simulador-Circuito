@@ -10,9 +10,9 @@
 ///
 
 class Porta;
-using ptr_Porta = Porta*;
+using ptr_Porta = Porta *;
 
-class Porta
+class Porta // Declaração completa
 {
 protected:
   // O numero de entradas da porta
@@ -28,7 +28,7 @@ public:
   // A classe abstrata Porta nao tem construtor default.
   Porta() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
-  Porta(int NI): Nin_port(NI),out_port(bool3S::UNDEF) {}
+  Porta(int NI) : Nin_port(NI), out_port(bool3S::UNDEF) {}
   // Destrutor virtual
   virtual ~Porta() {}
 
@@ -43,7 +43,7 @@ public:
   // Retorna true se um indice (qual entrada da porta) eh valido
   bool validIndex(int I) const
   {
-    return (I>=0 && I<getNumInputs());
+    return (I >= 0 && I < getNumInputs());
   }
 
   /// ***********************
@@ -72,7 +72,7 @@ public:
   // Fixa o valor logico da saida da porta (?, F, T)
   void setOutput(bool3S S)
   {
-    out_port=S;
+    out_port = S;
   }
 
   /// ***********************
@@ -85,124 +85,169 @@ public:
   // Se a dimensao do vetor in_port for adequada (>0 e igual ao numero de entradas
   // da porta), armazena o resultado da simulacao em out_port e retorna true.
   // Se nao for, faz out_port = UNDEF e retorna false.
-  virtual bool simular(const std::vector<bool3S>& in_port) = 0;
+  virtual bool simular(const std::vector<bool3S> &in_port) = 0;
 };
 
 ///
 /// As outras PORTAS
 ///
 
-class PortaNOT: public Porta
+class PortaNOT : public Porta
 {
 public:
   // Construtor default (fixa o numero de entradas da porta como sendo 1)
-  PortaNOT(): Porta(1) {}
+  PortaNOT() : Porta(1) {}
+
   // DEMAIS FUNCOES DA PORTA
   //
   // FALTA DECLARAR
   //
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
-class PortaAND: public Porta
+class PortaAND : public Porta
 {
 public:
   // PortaAND nao tem construtor default: sempre deve ser informado o num de entradas
   PortaAND() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
   // Se o parametro for invalido, faz Nin_port=0
-  PortaAND(int NI): Porta(NI)
+  PortaAND(int NI) : Porta(NI)
   {
-    if (NI<2) Nin_port=0;
+    if (NI < 2)
+      Nin_port = 0;
   }
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
+
   // DEMAIS FUNCOES DA PORTA
   //
   // FALTA DECLARAR
   //
 };
 
-class PortaNAND: public Porta
+class PortaNAND : public Porta
 {
 public:
   // PortaNAND nao tem construtor default: sempre deve ser informado o num de entradas
   PortaNAND() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
   // Se o parametro for invalido, faz Nin_port=0
-  PortaNAND(int NI): Porta(NI)
+  PortaNAND(int NI) : Porta(NI)
   {
-    if (NI<2) Nin_port=0;
+    if (NI < 2)
+      Nin_port = 0;
   }
   // DEMAIS FUNCOES DA PORTA
   //
   // FALTA DECLARAR
   //
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
-class PortaOR: public Porta
+class PortaOR : public Porta
 {
 public:
   // PortaOR nao tem construtor default: sempre deve ser informado o num de entradas
   PortaOR() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
   // Se o parametro for invalido, faz Nin_port=0
-  PortaOR(int NI): Porta(NI)
+  PortaOR(int NI) : Porta(NI)
   {
-    if (NI<2) Nin_port=0;
+    if (NI < 2)
+      Nin_port = 0;
   }
   // DEMAIS FUNCOES DA PORTA
   //
   // FALTA DECLARAR
   //
+
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
-class PortaNOR: public Porta
+class PortaNOR : public Porta
 {
 public:
   // PortaNOR nao tem construtor default: sempre deve ser informado o num de entradas
   PortaNOR() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
   // Se o parametro for invalido, faz Nin_port=0
-  PortaNOR(int NI): Porta(NI)
+  PortaNOR(int NI) : Porta(NI)
   {
-    if (NI<2) Nin_port=0;
+    if (NI < 2)
+      Nin_port = 0;
   }
   // DEMAIS FUNCOES DA PORTA
-  //
-  // FALTA DECLARAR
-  //
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
-class PortaXOR: public Porta
+class PortaXOR : public Porta
 {
 public:
   // PortaXOR nao tem construtor default: sempre deve ser informado o num de entradas
   PortaXOR() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
   // Se o parametro for invalido, faz Nin_port=0
-  PortaXOR(int NI): Porta(NI)
+  PortaXOR(int NI) : Porta(NI)
   {
-    if (NI<2) Nin_port=0;
+    if (NI < 2)
+      Nin_port = 0;
   }
   // DEMAIS FUNCOES DA PORTA
-  //
-  // FALTA DECLARAR
-  //
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
-class PortaNXOR: public Porta
+class PortaNXOR : public Porta
 {
 public:
   // PortaNXOR nao tem construtor default: sempre deve ser informado o num de entradas
   PortaNXOR() = delete;
   // Construtor especifico (recebe como parametro o numero de entradas da porta)
   // Se o parametro for invalido, faz Nin_port=0
-  PortaNXOR(int NI): Porta(NI)
+  PortaNXOR(int NI) : Porta(NI)
   {
-    if (NI<2) Nin_port=0;
+    if (NI < 2)
+      Nin_port = 0;
   }
   // DEMAIS FUNCOES DA PORTA
-  //
-  // FALTA DECLARAR
-  //
+  // Função clone - com override
+  ptr_Porta clone() const override;
+  // Função getName - com override
+  std::string getName() const override;
+  // Função simular - com override
+  bool simular(const std::vector<bool3S> &in_port) override;
 };
 
 #endif // _PORTA_H_
