@@ -29,9 +29,13 @@ Circuito::Circuito(const Circuito& C):
 }
 
 // Construtor por movimento
-//
-// FALTA IMPLEMENTAR
-//
+Circuito::Circuito(Circuito&& C) noexcept:  Circuito(){
+    std::swap(Nin_circ, C.Nin_circ);
+    std::swap(ports,C.ports);
+    std::swap(out_circ, C.out_circ);
+    std::swap(id_in, C.id_in);
+    std::swap(id_out, C.id_out);
+}
 
 // Limpa todo o conteudo do circuito.
 void Circuito::clear() noexcept
