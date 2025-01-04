@@ -10,9 +10,23 @@
 /// ***********************
 
 // Construtor por copia
-//
-// FALTA IMPLEMENTAR
-//
+Circuito::Circuito(const Circuito& C):
+    Nin_circ(C.Nin_circ), ports(C.getNumPorts()), out_circ(C.getNumOutputs()), id_in(C.getNumPorts()), id_out(C.getNumOutputs())
+{
+    //Usando for loops com indices para reduzir a quantidade de laços
+    ///Pensando em for de range com iteradores for(auto i : conteiner_a_ser_copiado)
+    for(int i = 0; i < C.getNumPorts(); ++i){
+        //Laço de copia do conteiner de portas
+        ports.push_back(C.ports[i]);
+        //Laço que copia o a cada porta suas ids (de onde vem)
+        for(int j = 0; j < ports[i]->getNumInputs(); ++j) id_in[i].push_back(C.id_in[i][j]);
+    }
+    //Laço que copia saidas
+    for(int i = 0; i < C.getNumOutputs(); ++i){
+        out_circ.push_back(C.out_circ[i]);
+        id_out.push_back(C.id_out[i]);
+    }
+}
 
 // Construtor por movimento
 //
