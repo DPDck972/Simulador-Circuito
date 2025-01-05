@@ -40,27 +40,46 @@ Circuito::Circuito(Circuito&& C) noexcept:  Circuito(){
 // Limpa todo o conteudo do circuito.
 void Circuito::clear() noexcept
 {
-  //
-  // FALTA IMPLEMENTAR
-  //
+    Nin_circ = 0;
+    ports.clear();
+    out_circ.clear();
+    id_in.clear();
+    id_out.clear();
 }
 
 // Operador de atribuicao por copia
 Circuito& Circuito::operator=(const Circuito& C)
 {
-  //
-  // FALTA IMPLEMENTAR
-  //
-  return *this;
+    this->clear();
+    ///Fazer alocações de tamanho de vetores antes de passar atribuições ?
+
+    for(int i = 0; i < C.getNumPorts(); ++i){
+        //Laço de copia do conteiner de portas
+        ports.push_back(C.ports[i]);
+        //Laço que copia o a cada porta suas ids (de onde vem)
+        for(int j = 0; j < ports[i]->getNumInputs(); ++j) id_in[i].push_back(C.id_in[i][j]);
+    }
+    //Laço que copia saidas
+    for(int i = 0; i < C.getNumOutputs(); ++i){
+        out_circ.push_back(C.out_circ[i]);
+        id_out.push_back(C.id_out[i]);
+    }
+
+    return *this;
 }
 
 // Operador de atribuicao por movimento
 Circuito& Circuito::operator=(Circuito&& C) noexcept
 {
-  //
-  // FALTA IMPLEMENTAR
-  //
-  return *this;
+    this->clear(); //O clear já retorna o circuito ao padrão do construtor default
+
+    std::swap(Nin_circ, C.Nin_circ);
+    std::swap(ports,C.ports);
+    std::swap(out_circ, C.out_circ);
+    std::swap(id_in, C.id_in);
+    std::swap(id_out, C.id_out);
+
+    return *this;
 }
 
 // Redimensiona o circuito
