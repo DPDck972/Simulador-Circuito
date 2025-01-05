@@ -86,7 +86,6 @@ Circuito& Circuito::operator=(Circuito&& C) noexcept
 void Circuito::resize(int NI, int NO, int NP)
 {
   if (NI<=0 || NO<=0 || NP<=0) return;
-
   //
   // FALTA IMPLEMENTAR
   //
