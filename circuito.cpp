@@ -13,6 +13,7 @@
 Circuito::Circuito(const Circuito& C):
     Nin_circ(C.Nin_circ), ports(C.getNumPorts()), out_circ(C.getNumOutputs()), id_in(C.getNumPorts()), id_out(C.getNumOutputs())
 {
+    ///consertar usando resize e comparar se não já são iguais
     //Usando for loops com indices para reduzir a quantidade de laços
     ///Pensando em for de range com iteradores for(auto i : conteiner_a_ser_copiado)
     for(int i = 0; i < C.getNumPorts(); ++i){
@@ -41,8 +42,10 @@ Circuito::Circuito(Circuito&& C) noexcept:  Circuito(){
 void Circuito::clear() noexcept
 {
     Nin_circ = 0;
+    for(auto p : this->ports) delete p;
     ports.clear();
     out_circ.clear();
+    for(auto p : this->id_in) p.clear();
     id_in.clear();
     id_out.clear();
 }
@@ -50,21 +53,22 @@ void Circuito::clear() noexcept
 // Operador de atribuicao por copia
 Circuito& Circuito::operator=(const Circuito& C)
 {
-    this->clear();
-    ///Fazer alocações de tamanho de vetores antes de passar atribuições ?
+    if(*this != C){
+        this->clear();
+        ///Fazer alocações de tamanho de vetores antes de passar atribuições ?
 
-    for(int i = 0; i < C.getNumPorts(); ++i){
-        //Laço de copia do conteiner de portas
-        ports.push_back(C.ports[i]);
-        //Laço que copia o a cada porta suas ids (de onde vem)
-        for(int j = 0; j < ports[i]->getNumInputs(); ++j) id_in[i].push_back(C.id_in[i][j]);
+        for(int i = 0; i < C.getNumPorts(); ++i){
+            //Laço de copia do conteiner de portas
+            ports.push_back(C.ports[i]);
+            //Laço que copia o a cada porta suas ids (de onde vem)
+            for(int j = 0; j < ports[i]->getNumInputs(); ++j) id_in[i].push_back(C.id_in[i][j]);
+        }
+        //Laço que copia saidas
+        for(int i = 0; i < C.getNumOutputs(); ++i){
+            out_circ.push_back(C.out_circ[i]);
+            id_out.push_back(C.id_out[i]);
+        }
     }
-    //Laço que copia saidas
-    for(int i = 0; i < C.getNumOutputs(); ++i){
-        out_circ.push_back(C.out_circ[i]);
-        id_out.push_back(C.id_out[i]);
-    }
-
     return *this;
 }
 
@@ -86,9 +90,13 @@ Circuito& Circuito::operator=(Circuito&& C) noexcept
 void Circuito::resize(int NI, int NO, int NP)
 {
   if (NI<=0 || NO<=0 || NP<=0) return;
-  //
-  // FALTA IMPLEMENTAR
-  //
+  this->clear();
+  this->Nin_circ = NI;
+  this->ports.resize(NP);
+  this->out_circ.resize(NO);
+  this->id_in.resize(NI);
+  //Vetores internos de id_in já estão zerados.
+  this->id_out.resize(NO);
 }
 
 /// ***********************
