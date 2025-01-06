@@ -184,12 +184,29 @@ bool Circuito::setPort(int IdPort, std::string& Tipo, int Nin)
   if (Tipo!="NT" && Nin<2) return false;
 
   // Altera a porta:
-  // - cria a nova porta
+  Porta* prov;
+  if(Tipo == "NT"){
+      prov = new PortaNOT();
+  }else if(Tipo == "AN"){
+      prov = new PortaAND(Nin);
+  }else if(Tipo == "NA"){
+      prov = new PortaNAND(Nin);
+  }else if(Tipo == "OR"){
+      prov = new PortaOR(Nin);
+  }else if(Tipo == "NO"){
+      prov = new PortaNOR(Nin);
+  }else if(Tipo == "XO"){
+      prov = new PortaXOR(Nin);
+  }else if(Tipo == "NX"){
+      prov = new PortaNXOR(Nin);
+  }else{
+      //Jamais chegaria aqui devido ao teste anterior, mas a IDE estava reclamando....
+      return false;
+  }
+  //Atribui no vetor de porta da posição IdPort a nova porta
+  this->ports[IdPort] = prov;
   // - redimensiona o vetor de conexoes da porta
-
-  //
-  // FALTA IMPLEMENTAR
-  //
+  this->id_in[IdPort].resize(Nin);
 
   return true;
 }
