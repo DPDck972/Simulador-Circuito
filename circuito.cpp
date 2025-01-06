@@ -10,20 +10,15 @@
 /// ***********************
 
 // Construtor por copia
-Circuito::Circuito(const Circuito& C): Circuito()
+Circuito::Circuito(const Circuito& C):
+    Nin_circ(C.Nin_circ)
 {
-    this->resize(C.getNumInputs(),C.getNumOutputs(),C.getNumPorts());
-    //Usando for loops com indices para reduzir a quantidade de laços
-    ///Pensando em for de range com iteradores for(auto i : conteiner_a_ser_copiado)
-    for(int i = 0; i < C.getNumPorts(); i++){
-        //Laço de copia do conteiner de portas
-        ports.push_back(C.ports[i]);
+    ///Colocar .capacity do vetor para tamanho certo ?
+    //Laço de copia do conteiner de portas
+    for(auto p : C.ports) this->ports.push_back(p->clone());
 
-        //Laço que copia o a cada porta suas ids (de onde vem)
-        for(int j = 0; j < int(this->id_in[i].size()); j++){
-            id_in[i].push_back(C.id_in[i][j]);
-        }
-    }
+    for(auto p : C.id_in) this->id_in.push_back(p);
+
     //Laço que copia saidas
     for(int i = 0; i < C.getNumOutputs(); i++){
         out_circ.push_back(C.out_circ[i]);
@@ -55,18 +50,18 @@ void Circuito::clear() noexcept
 // Operador de atribuicao por copia
 Circuito& Circuito::operator=(const Circuito& C)
 {
+    ///Colocar .capacity do vetor para tamanho certo ?
     if(*this != C){
-        //Redimensionando o circuito para o tamanho do circuito a ser copiado
-        this->resize(C.getNumInputs(),C.getNumOutputs(),C.getNumPorts());
+        this->clear();
+        this->Nin_circ = C.Nin_circ;
 
-        for(int i = 0; i < C.getNumPorts(); ++i){
-            //Laço de copia do conteiner de portas
-            ports.push_back(C.ports[i]);
-            //Laço que copia o a cada porta suas ids (de onde vem)
-            for(int j = 0; j < ports[i]->getNumInputs(); ++j) id_in[i].push_back(C.id_in[i][j]);
-        }
+        //Laço de copia do conteiner de portas
+        for(auto p : C.ports) this->ports.push_back(p->clone());
+
+        for(auto p : C.id_in) this->id_in.push_back(p);
+
         //Laço que copia saidas
-        for(int i = 0; i < C.getNumOutputs(); ++i){
+        for(int i = 0; i < C.getNumOutputs(); i++){
             out_circ.push_back(C.out_circ[i]);
             id_out.push_back(C.id_out[i]);
         }
