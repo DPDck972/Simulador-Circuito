@@ -10,49 +10,97 @@
 /// ***********************
 
 // Construtor por copia
-//
-// FALTA IMPLEMENTAR
-//
+Circuito::Circuito(const Circuito& C):
+    Nin_circ(C.Nin_circ)
+{
+    ///Colocar .capacity do vetor para tamanho certo ?
+    //Laço de copia do conteiner de portas
+    for(auto p : C.ports) this->ports.push_back(p->clone());
+
+    for(auto p : C.id_in) this->id_in.push_back(p);
+
+    //Laço que copia saidas
+    for(int i = 0; i < C.getNumOutputs(); i++){
+        out_circ.push_back(C.out_circ[i]);
+        id_out.push_back(C.id_out[i]);
+    }
+}
 
 // Construtor por movimento
-//
-// FALTA IMPLEMENTAR
-//
+Circuito::Circuito(Circuito&& C) noexcept:  Circuito(){
+    std::swap(Nin_circ, C.Nin_circ);
+    std::swap(ports,C.ports);
+    std::swap(out_circ, C.out_circ);
+    std::swap(id_in, C.id_in);
+    std::swap(id_out, C.id_out);
+}
 
 // Limpa todo o conteudo do circuito.
 void Circuito::clear() noexcept
 {
-  //
-  // FALTA IMPLEMENTAR
-  //
+    Nin_circ = 0;
+    for(auto p : this->ports) delete p;
+    ports.clear();
+    out_circ.clear();
+    for(auto p : this->id_in) p.clear();
+    id_in.clear();
+    id_out.clear();
 }
 
 // Operador de atribuicao por copia
 Circuito& Circuito::operator=(const Circuito& C)
 {
-  //
-  // FALTA IMPLEMENTAR
-  //
-  return *this;
+    ///Colocar .capacity do vetor para tamanho certo ?
+    if(*this != C){
+        this->clear();
+        this->Nin_circ = C.Nin_circ;
+
+        //Laço de copia do conteiner de portas
+        for(auto p : C.ports) this->ports.push_back(p->clone());
+
+        for(auto p : C.id_in) this->id_in.push_back(p);
+
+        //Laço que copia saidas
+        for(int i = 0; i < C.getNumOutputs(); i++){
+            out_circ.push_back(C.out_circ[i]);
+            id_out.push_back(C.id_out[i]);
+        }
+    }
+    return *this;
 }
 
 // Operador de atribuicao por movimento
 Circuito& Circuito::operator=(Circuito&& C) noexcept
 {
-  //
-  // FALTA IMPLEMENTAR
-  //
-  return *this;
+    this->clear(); //O clear já retorna o circuito ao padrão do construtor default
+
+    std::swap(Nin_circ, C.Nin_circ);
+    std::swap(ports,C.ports);
+    std::swap(out_circ, C.out_circ);
+    std::swap(id_in, C.id_in);
+    std::swap(id_out, C.id_out);
+
+    return *this;
 }
 
 // Redimensiona o circuito
 void Circuito::resize(int NI, int NO, int NP)
 {
-  if (NI<=0 || NO<=0 || NP<=0) return;
+    ///Função resize deixa vetores com valores nulos (zeros)
+    ///implementar apenas alocando uma area de memoria com capacity e deixando os vetores sem nada ?
+    if (NI<=0 || NO<=0 || NP<=0) return;
 
-  //
-  // FALTA IMPLEMENTAR
-  //
+    //Limpa todo o circuito antes de mudar dimensões dos vetores
+    this->clear();
+
+    //Redimensiona o tamanho dos vetores (que estão em 0) para tamanho desejado
+    //preenche os vetores com 0
+    this->Nin_circ = NI;
+    this->ports.resize(NP);
+    this->out_circ.resize(NO);
+    //Vetores internos de id_in já estão zerados.
+    this->id_in.resize(NI);
+    this->id_out.resize(NO);
 }
 
 /// ***********************
@@ -140,12 +188,29 @@ bool Circuito::setPort(int IdPort, std::string& Tipo, int Nin)
   if (Tipo!="NT" && Nin<2) return false;
 
   // Altera a porta:
-  // - cria a nova porta
+  Porta* prov(nullptr);
+  if(Tipo == "NT"){
+      prov = new PortaNOT();
+  }else if(Tipo == "AN"){
+      prov = new PortaAND(Nin);
+  }else if(Tipo == "NA"){
+      prov = new PortaNAND(Nin);
+  }else if(Tipo == "OR"){
+      prov = new PortaOR(Nin);
+  }else if(Tipo == "NO"){
+      prov = new PortaNOR(Nin);
+  }else if(Tipo == "XO"){
+      prov = new PortaXOR(Nin);
+  }else if(Tipo == "NX"){
+      prov = new PortaNXOR(Nin);
+  }else{
+      //Jamais chegaria aqui devido ao teste anterior, mas a IDE estava reclamando....
+      return false;
+  }
+  //Atribui no vetor de porta da posição IdPort a nova porta
+  this->ports[IdPort-1] = prov;
   // - redimensiona o vetor de conexoes da porta
-
-  //
-  // FALTA IMPLEMENTAR
-  //
+  this->id_in[IdPort-1].resize(Nin);
 
   return true;
 }
