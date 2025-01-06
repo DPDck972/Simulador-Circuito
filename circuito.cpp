@@ -184,7 +184,7 @@ bool Circuito::setPort(int IdPort, std::string& Tipo, int Nin)
   if (Tipo!="NT" && Nin<2) return false;
 
   // Altera a porta:
-  Porta* prov;
+  Porta* prov(nullptr);
   if(Tipo == "NT"){
       prov = new PortaNOT();
   }else if(Tipo == "AN"){

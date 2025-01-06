@@ -31,8 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="bool3S.cpp" />
+		<Unit filename="bool3S.h" />
 		<Unit filename="circuito.cpp" />
 		<Unit filename="circuito.h" />
+		<Unit filename="porta.cpp" />
+		<Unit filename="porta.h" />
 		<Unit filename="teste2.cpp" />
 		<Extensions />
 	</Project>

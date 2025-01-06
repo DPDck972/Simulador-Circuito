@@ -18,3 +18,30 @@
 1734656919 source:c:\users\mh330\documents\acadêmico\2024.2\programação avançada\unidade 3\projeto 4\simulador-circuito\bool3s.cpp
 	"bool3S.h"
 
+1736194469 source:c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\circuito.cpp
+	<fstream>
+	"circuito.h"
+
+1736193868 c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\circuito.h
+	"bool3S.h"
+	"porta.h"
+
+1734652686 c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\bool3s.h
+	<iostream>
+
+1736194425 c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\porta.h
+	<string>
+	<vector>
+	"bool3S.h"
+
+1736194205 source:c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\teste2.cpp
+	<iostream>
+	<string>
+	"circuito.h"
+
+1736038950 source:c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\porta.cpp
+	"porta.h"
+
+1734652686 source:c:\users\phantom duck\documents\ufrn\2024.2 - programacao avancada - turma 02\avaliação 04\simulador-circuito\bool3s.cpp
+	"bool3S.h"
+
