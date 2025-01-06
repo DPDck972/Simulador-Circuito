@@ -11,9 +11,9 @@
 
 // Construtor por copia
 Circuito::Circuito(const Circuito& C):
-    Nin_circ(C.Nin_circ), ports(C.getNumPorts()), out_circ(C.getNumOutputs()), id_in(C.getNumPorts()), id_out(C.getNumOutputs())
+    Circuito()
 {
-    ///consertar usando resize e comparar se não já são iguais
+    this->resize(C.getNumInputs(),C.getNumOutputs(),C.getNumPorts());
     //Usando for loops com indices para reduzir a quantidade de laços
     ///Pensando em for de range com iteradores for(auto i : conteiner_a_ser_copiado)
     for(int i = 0; i < C.getNumPorts(); ++i){
@@ -54,8 +54,8 @@ void Circuito::clear() noexcept
 Circuito& Circuito::operator=(const Circuito& C)
 {
     if(*this != C){
-        this->clear();
-        ///Fazer alocações de tamanho de vetores antes de passar atribuições ?
+        //Redimensionando o circuito para o tamanho do circuito a ser copiado
+        this->resize(C.getNumInputs(),C.getNumOutputs(),C.getNumPorts());
 
         for(int i = 0; i < C.getNumPorts(); ++i){
             //Laço de copia do conteiner de portas
