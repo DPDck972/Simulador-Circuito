@@ -10,20 +10,22 @@
 /// ***********************
 
 // Construtor por copia
-Circuito::Circuito(const Circuito& C):
-    Circuito()
+Circuito::Circuito(const Circuito& C): Circuito()
 {
     this->resize(C.getNumInputs(),C.getNumOutputs(),C.getNumPorts());
     //Usando for loops com indices para reduzir a quantidade de laços
     ///Pensando em for de range com iteradores for(auto i : conteiner_a_ser_copiado)
-    for(int i = 0; i < C.getNumPorts(); ++i){
+    for(int i = 0; i < C.getNumPorts(); i++){
         //Laço de copia do conteiner de portas
         ports.push_back(C.ports[i]);
+
         //Laço que copia o a cada porta suas ids (de onde vem)
-        for(int j = 0; j < ports[i]->getNumInputs(); ++j) id_in[i].push_back(C.id_in[i][j]);
+        for(int j = 0; j < int(this->id_in[i].size()); j++){
+            id_in[i].push_back(C.id_in[i][j]);
+        }
     }
     //Laço que copia saidas
-    for(int i = 0; i < C.getNumOutputs(); ++i){
+    for(int i = 0; i < C.getNumOutputs(); i++){
         out_circ.push_back(C.out_circ[i]);
         id_out.push_back(C.id_out[i]);
     }
@@ -204,9 +206,9 @@ bool Circuito::setPort(int IdPort, std::string& Tipo, int Nin)
       return false;
   }
   //Atribui no vetor de porta da posição IdPort a nova porta
-  this->ports[IdPort] = prov;
+  this->ports[IdPort-1] = prov;
   // - redimensiona o vetor de conexoes da porta
-  this->id_in[IdPort].resize(Nin);
+  this->id_in[IdPort-1].resize(Nin);
 
   return true;
 }
