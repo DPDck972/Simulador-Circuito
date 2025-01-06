@@ -86,14 +86,21 @@ Circuito& Circuito::operator=(Circuito&& C) noexcept
 // Redimensiona o circuito
 void Circuito::resize(int NI, int NO, int NP)
 {
-  if (NI<=0 || NO<=0 || NP<=0) return;
-  this->clear();
-  this->Nin_circ = NI;
-  this->ports.resize(NP);
-  this->out_circ.resize(NO);
-  this->id_in.resize(NI);
-  //Vetores internos de id_in já estão zerados.
-  this->id_out.resize(NO);
+    ///Função resize deixa vetores com valores nulos (zeros)
+    ///implementar apenas alocando uma area de memoria com capacity e deixando os vetores sem nada ?
+    if (NI<=0 || NO<=0 || NP<=0) return;
+
+    //Limpa todo o circuito antes de mudar dimensões dos vetores
+    this->clear();
+
+    //Redimensiona o tamanho dos vetores (que estão em 0) para tamanho desejado
+    //preenche os vetores com 0
+    this->Nin_circ = NI;
+    this->ports.resize(NP);
+    this->out_circ.resize(NO);
+    //Vetores internos de id_in já estão zerados.
+    this->id_in.resize(NI);
+    this->id_out.resize(NO);
 }
 
 /// ***********************
