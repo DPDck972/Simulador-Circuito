@@ -11,8 +11,9 @@
 
 // Construtor por copia
 Circuito::Circuito(const Circuito& C):
-    Nin_circ(C.Nin_circ)
+    Circuito()
 {
+    this->Nin_circ = C.Nin_circ;
     ///Colocar .capacity do vetor para tamanho certo ?
     //Laço de copia do conteiner de portas
     for(auto p : C.ports) this->ports.push_back(p->clone());
@@ -97,9 +98,11 @@ void Circuito::resize(int NI, int NO, int NP)
     //preenche os vetores com 0
     this->Nin_circ = NI;
     this->ports.resize(NP);
-    this->out_circ.resize(NO);
+
     //Vetores internos de id_in já estão zerados.
-    this->id_in.resize(NI);
+    this->id_in.resize(NP);
+
+    this->out_circ.resize(NO);
     this->id_out.resize(NO);
 }
 
@@ -209,9 +212,10 @@ bool Circuito::setPort(int IdPort, std::string& Tipo, int Nin)
       return false;
   }
   //Atribui no vetor de porta da posição IdPort a nova porta
-  this->ports[IdPort-1] = prov;
+  this->ports.at(IdPort-1) = prov;
+
   // - redimensiona o vetor de conexoes da porta
-  this->id_in[IdPort-1].resize(Nin);
+  this->id_in.at(IdPort-1).resize(Nin);
 
   return true;
 }
@@ -271,6 +275,7 @@ bool Circuito::ler(const std::string& arq)
     // Lendo as portas do circuito
     myfile >> pS;
     if (!myfile.good() || pS!="PORTAS") throw 3;
+
     for (i=0; i<prov.getNumPorts(); ++i)
     {
       // Lendo o tipo e o numero de entradas de uma porta
@@ -279,21 +284,23 @@ bool Circuito::ler(const std::string& arq)
           !prov.setPort(id,Tipo,Nin_port)) throw 4;
     }
 
+
     // Lendo a conectividade das portas
     myfile >> pS;
     if (!myfile.good() || pS!="CONEXOES") throw 5;
     for (i=0; i<prov.getNumPorts(); ++i)
     {
-      // Lendo a id da porta
-      myfile >> id >> c;
-      if (!myfile.good() || id != i+1 || c!=')') throw 6;
-      // Lendo as ids das entradas da porta
-      for (I=0; I<prov.getNumInputsPort(id); ++I)
-      {
-        myfile >> id_orig;
-        if (!myfile.good() ||
-            !prov.setIdInPort(id, I, id_orig)) throw 7;
-      }
+        // Lendo a id da porta
+        myfile >> id >> c;
+
+        if (!myfile.good() || id != i+1 || c!=')') throw 6;
+        // Lendo as ids das entradas da porta
+        for (I=0; I<prov.getNumInputsPort(id); ++I)
+        {
+            myfile >> id_orig;
+            if (!myfile.good() ||
+                !prov.setIdInPort(id, I, id_orig)) throw 7;
+        }
     }
 
     // Lendo as saidas do circuito
@@ -303,8 +310,10 @@ bool Circuito::ler(const std::string& arq)
     {
       // Lendo a id de uma saida do circuito
       myfile >> id >> c >> id_orig;
+
       if (!myfile.good() || id != i+1 || c!=')' ||
           !prov.setIdOutputCirc(id, id_orig)) throw 9;
+
     }
   }
   catch (int erro)
@@ -316,7 +325,6 @@ bool Circuito::ler(const std::string& arq)
     */
     return false;
   }
-
   // Leitura OK
   // Faz o circuito assumir as caracteristicas lidas do arquivo
   *this = std::move(prov);
@@ -392,35 +400,38 @@ bool Circuito::simular(const std::vector<bool3S>& in_circ)
       tudo_def = true;
       alguma_def = false;
 
-      for(int i = 0; i < this->getNumPorts(); i++){
-          if(this->ports[i]->getOutput() == bool3S::UNDEF){
-              for(int j = 0; this->ports[i]->getNumInputs(); j++){
+      //Para todas as "id" das portas:
+      for(int id = 1; id <= this->getNumPorts(); id++){
+          if(this->getOutputPort(id) == bool3S::UNDEF){
+              // Para todas as "j" entradas da porta "id";
+              for(int j = 0; j < this->getNumInputsPort(id); j++){
                   // De onde vem a entrada?
-                  id_orig = id_in[i][j];
+                  id_orig = this->getIdInPort(id, j);
                   // Valor bool3S da entrada
-                  if(id_orig > 0) in_port[j] = ports[id_orig]->getOutput();
-                  else in_port[j] = in_circ[id_orig];
+                  if(id_orig > 0) in_port.push_back(this->getOutputPort(id_orig));
+                  else in_port.push_back(in_circ[(id_orig*1)-1]);
               }
-
               // Simula a porta "id" com
               // entradas in_port
-              this->ports[i]->simular(in_port);
+              this->ports[id-1]->simular(in_port);
 
               // Calcula os critérios
               // de parada do algoritmo
-              if(this->ports[i]->getOutput() == bool3S::UNDEF) tudo_def = false;
+              if(this->getOutputPort(id) == bool3S::UNDEF) tudo_def = false;
               else alguma_def = true;
           }
+          ///Confirmar utilidade
+          in_port.clear();
       }
   }while(!tudo_def && alguma_def);
 
   // DETERMINAÇÃO DAS SAÍDAS
-  for(int i = 0; i < this->getNumOutputs(); i++){
+  for(int id = 1; id <= this->getNumOutputs(); id++){
       // De onde vem a saída?
-      id_orig = id_out[i];
+      id_orig = this->getIdOutputCirc(id);
       // Valor bool3S da saída
-      if(id_orig > 0) out_circ[i] = this->ports[id_orig]->getOutput();
-      else out_circ[i] = in_circ[id_orig];
+      if(id_orig > 0) out_circ[id-1] = this->getOutputPort(id_orig);
+      else out_circ[id-1] = in_circ[(id_orig*1)-1];
   }
 
   // Tudo OK com a simulacao
