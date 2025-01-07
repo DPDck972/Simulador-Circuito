@@ -409,19 +409,19 @@ bool Circuito::simular(const std::vector<bool3S>& in_circ)
                   id_orig = this->getIdInPort(id, j);
                   // Valor bool3S da entrada
                   if(id_orig > 0) in_port.push_back(this->getOutputPort(id_orig));
-                  else in_port.push_back(in_circ[(id_orig*1)-1]);
+                  else in_port.push_back(in_circ[(id_orig*-1)-1]);
               }
               // Simula a porta "id" com
               // entradas in_port
               this->ports[id-1]->simular(in_port);
+              ///Confirmar utilidade
+              in_port.clear();
 
               // Calcula os critérios
               // de parada do algoritmo
               if(this->getOutputPort(id) == bool3S::UNDEF) tudo_def = false;
               else alguma_def = true;
           }
-          ///Confirmar utilidade
-          in_port.clear();
       }
   }while(!tudo_def && alguma_def);
 
@@ -431,7 +431,7 @@ bool Circuito::simular(const std::vector<bool3S>& in_circ)
       id_orig = this->getIdOutputCirc(id);
       // Valor bool3S da saída
       if(id_orig > 0) out_circ[id-1] = this->getOutputPort(id_orig);
-      else out_circ[id-1] = in_circ[(id_orig*1)-1];
+      else out_circ[id-1] = in_circ[(id_orig*-1)-1];
   }
 
   // Tudo OK com a simulacao
