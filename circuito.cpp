@@ -188,7 +188,8 @@ bool Circuito::setPort(int IdPort, std::string& Tipo, int Nin)
   if (Tipo!="NT" && Nin<2) return false;
 
   // Altera a porta:
-  Porta* prov(nullptr);
+  ptr_Porta prov(nullptr);
+
   if(Tipo == "NT"){
       prov = new PortaNOT();
   }else if(Tipo == "AN"){
@@ -379,10 +380,48 @@ bool Circuito::simular(const std::vector<bool3S>& in_circ)
   // Soh simula se o cicuito e o parametro forem validos
   if (!valid() || int(in_circ.size())!=getNumInputs()) return false;
 
-  //
-  // FALTA IMPLEMENTAR
-  //
-  return false;  // REMOVA DEPOIS DE IMPLEMENTAR
+  bool tudo_def, alguma_def;
+  int id_orig;
+  std::vector<bool3S> in_port;
+
+
+  //Settando todas as saidas para UNDEF
+  for(auto p : this->ports) p->setOutput(bool3S::UNDEF);
+
+  do{
+      tudo_def = true;
+      alguma_def = false;
+
+      for(int i = 0; i < this->getNumPorts(); i++){
+          if(this->ports[i]->getOutput() == bool3S::UNDEF){
+              for(int j = 0; this->ports[i]->getNumInputs(); j++){
+                  // De onde vem a entrada?
+                  id_orig = id_in[i][j];
+                  // Valor bool3S da entrada
+                  if(id_orig > 0) in_port[j] = ports[id_orig]->getOutput();
+                  else in_port[j] = in_circ[id_orig];
+              }
+
+              // Simula a porta "id" com
+              // entradas in_port
+              this->ports[i]->simular(in_port);
+
+              // Calcula os critérios
+              // de parada do algoritmo
+              if(this->ports[i]->getOutput() == bool3S::UNDEF) tudo_def = false;
+              else alguma_def = true;
+          }
+      }
+  }while(!tudo_def && alguma_def);
+
+  // DETERMINAÇÃO DAS SAÍDAS
+  for(int i = 0; i < this->getNumOutputs(); i++){
+      // De onde vem a saída?
+      id_orig = id_out[i];
+      // Valor bool3S da saída
+      if(id_orig > 0) out_circ[i] = this->ports[id_orig]->getOutput();
+      else out_circ[i] = in_circ[id_orig];
+  }
 
   // Tudo OK com a simulacao
   return true;
