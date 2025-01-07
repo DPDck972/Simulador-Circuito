@@ -13,6 +13,7 @@
 Circuito::Circuito(const Circuito& C):
     Circuito()
 {
+    ///Confirmar e modificar para vetor se copiar com vetor(vetor)
     this->Nin_circ = C.Nin_circ;
     ///Colocar .capacity do vetor para tamanho certo ?
     //Laço de copia do conteiner de portas
